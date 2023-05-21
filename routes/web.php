@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\KontrakanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PenghuniController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,12 +27,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Kalau routenya itu terdiri dari CRUD, tinggal pakai Route::resource() aja Tegar, lebih simple and elegant
 // Dashboard
-Route::group(["prefix" => "dashboard", "middleware" => ["auth"], "as" => "dashboard."], function(){
+Route::group(["prefix" => "dashboard", "middleware" => ["auth", "admin"], "as" => "dashboard."], function(){
     Route::view('/', "index")->name("admin");
-    Route::resource("kontrakan", "KontrakanController");
-    Route::resource("penghuni", "PenghuniController");
-    Route::resource("transaksi", "TransaksiController");
-    Route::resource("laporan", "LaporanController");
+    Route::resource("kontrakan", KontrakanController::class);
+    Route::resource("penghuni", PenghuniController::class);
+    Route::resource("transaksi", TransaksiController::class);
+    Route::resource("laporan", LaporanController::class);
     Route::get("print", [LaporanController::class, "cetak"])->name('print');
     Route::get("halamanPrint/{tglawal}/{tglakhir}", [LaporanController::class, "cetakLaporanPertanggal"])->name("halamanPrint");
     Route::resource("log", "LogController");

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Kontrakan; 
+use App\Models\Kontrakan;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Alert;
+use Symfony\Component\HttpFoundation\Response;
 
 class KontrakanController extends Controller
 {
@@ -16,19 +18,19 @@ class KontrakanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
+    {
         $rents = Kontrakan::all();
         return view('dashboard.kontrakan.index', compact("rents"));
-    } 
-    
+    }
+
     public function search(Request $request)
     {
         // 'like' berfungsi jika ada user yang mencari mendekati kata yang dicari maka akan langsung di tampilkan
-         
-        $rents = Kontrakan::where('nama_kontrakan','like',"%".$request->search."%")->paginate(5); 
-        return view('dashboard.kontrakan.index', compact("rents")); 
+
+        $rents = Kontrakan::where('nama_kontrakan','like',"%".$request->search."%")->paginate(5);
+        return view('dashboard.kontrakan.index', compact("rents"));
     }
- 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -36,12 +38,13 @@ class KontrakanController extends Controller
      */
     public function create()
     {
+        abort_if(Gate::denies('rent_create'), Response::HTTP_FORBIDDEN, 'Forbidden');
         return view('dashboard.kontrakan.create');
     }
 
 
     public function store(Request $request)
-    {  
+    {
         $messages = [
             'required' => ':attribute wajib diisi / tidak boleh kosong!',
             'min' => ':attribute harus diisi minimal :min karakter!',
@@ -54,14 +57,14 @@ class KontrakanController extends Controller
 
         $request->validate([
             'nama_kontrakan' => 'required|min:5|max:30',
-            'tipe_kontrakan' => ["required", Rule::in(["Keluarga", "Cowo", "Cewe"])], 
-            'kapasitas_kontrakan' => 'required|min:1', 
-            'harga_kontrakan' => 'required|numeric|min:0', 
-            'foto_kontrakan' => 'required', 
+            'tipe_kontrakan' => ["required", Rule::in(["Keluarga", "Cowo", "Cewe"])],
+            'kapasitas_kontrakan' => 'required|min:1',
+            'harga_kontrakan' => 'required|numeric|min:0',
+            'foto_kontrakan' => 'required',
             'status_kontrakan' => ["required", Rule::in(["Kosong", "Penuh", "Booked", "Terjual"])],
             'alamat_kontrakan' => 'required'
         ], $messages, $alertError);
-        
+
         // Upload File
         $filename;
         if($request->hasFile("foto_kontrakan")) {
@@ -69,18 +72,18 @@ class KontrakanController extends Controller
             $request->foto_kontrakan->move(public_path('/assets/upload/foto_kontrakan'), $filename);
         }
 
-        Kontrakan::create($request->except("foto_kontrakan") + ["foto_kontrakan" => $filename]); 
-        Alert::success('Proses Tambah Data Berhasil', 'Berhasil Tambah Data Kontrakan');     
+        Kontrakan::create($request->except("foto_kontrakan") + ["foto_kontrakan" => $filename]);
+        Alert::success('Proses Tambah Data Berhasil', 'Berhasil Tambah Data Kontrakan');
         return redirect()->route("dashboard.kontrakan.index");
        }
-     
+
     public function show(Kontrakan $kontrakan)
-    { 
+    {
         return view('dashboard.kontrakan.show', compact('kontrakan'));
     }
-    
+
     public function edit(Kontrakan $kontrakan)
-    { 
+    {
         return view('dashboard.kontrakan.edit', compact('kontrakan'));
     }
 
@@ -91,7 +94,7 @@ class KontrakanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-  
+
     public function update(Request $request, Kontrakan $kontrakan)
     {
         $messages = [
@@ -106,20 +109,20 @@ class KontrakanController extends Controller
 
         $request->validate([
             'nama_kontrakan' => 'required|min:5',
-            'tipe_kontrakan' => 'required|min:1', 
-            'kapasitas_kontrakan' => 'required', 
-            'harga_kontrakan' => 'required', 
-            'foto_kontrakan' => 'required', 
+            'tipe_kontrakan' => 'required|min:1',
+            'kapasitas_kontrakan' => 'required',
+            'harga_kontrakan' => 'required',
+            'foto_kontrakan' => 'required',
             'status_kontrakan' => 'required',
             'alamat_kontrakan' => 'required|max:200'
         ], $messages, $alertError);
 
 
-        
+
         //cek apakah ada file foto kontrakan, kalau ada maka upload dan update fotonya di db
         if ($request->hasFile("foto_kontrakan")) {
             $file = $request->file("foto_kontrakan");
-            $file->move(public_path('/assets/upload/foto_kontrakan'), $file->getClientOriginalName()); 
+            $file->move(public_path('/assets/upload/foto_kontrakan'), $file->getClientOriginalName());
             $kontrakan->update(["foto_kontrakan" => $file->getClientOriginalName()]);
         }
 
@@ -131,7 +134,7 @@ class KontrakanController extends Controller
         Alert::success('Proses Edit Data Berhasil', 'Berhasil Edit Data Kontrakan');
         return redirect()->route("dashboard.kontrakan.index")->with('status', 'Edit Data Kontrakan Berhasil');
     }
-    
+
     public function destroy(Kontrakan $kontrakan) {
         $kontrakan->delete();
         Alert::success('Proses Hapus Data Berhasil', 'Berhasil Hapus Data Kontrakan');
