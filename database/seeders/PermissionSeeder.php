@@ -68,6 +68,9 @@ class PermissionSeeder extends Seeder
             ['title' => 'permission_role_delete'],
             ['title' => 'permission_role_edit'],
 
+            // Activity Log Management
+            ['title' => 'activity_log_access'],
+
             // Report Management
             ['title' => 'report_create'],
         ];

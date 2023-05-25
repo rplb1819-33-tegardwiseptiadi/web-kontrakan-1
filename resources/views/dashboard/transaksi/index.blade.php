@@ -7,13 +7,13 @@
     @include("includes.header", [
     "icon" => "fas fa-users",
     "breadcrumbs" => [
-    [
-    "name" => "List Transaksi",
-    "is_active" => "active",
-    "link" => `{{ route('dashboard.transaksi.index') }}`
-    ]
+        [
+        "name" => "List Transaksi",
+        "is_active" => "active",
+        "link" => `{{ route('dashboard.transaksi.index') }}`
+        ]
     ],
-    "button" => ["link" => "/dashboard/transaksi/create", "name" => "Tambah Transaksi"]
+      "button" => ["link" => "/dashboard/transaksi/create", "name" => "Tambah Transaksi"]
     ])
 @endsection
 <!-- ini adalah isi konten dari halaman Kelola Transaksi -->
@@ -66,11 +66,11 @@
                                                         @if($transaction->status_transaksi == 'Lunas')
                                                         <div class="btn btn-primary"> {{ $transaction->status_transaksi }}
                                                             @endif
-                                                    
+
                                                             @if($transaction->status_transaksi == 'Belum Lunas')
                                                         <div class="btn btn-danger"> {{ $transaction->status_transaksi }}
                                                             @endif
-                                                
+
                                                     </td>
                                                     <td>
                                                             <form
@@ -85,10 +85,10 @@
                                                                 <button class="btn btn-warning btn-sm mx-2">
                                                                     <i class="fas fa-edit"></i>
                                                                 </button>
-                                                            </form> 
+                                                            </form>
                                                     </td>
                                                 </tr>
-                                                
+
                                                 @endforeach
                                         @else
                                         <tr align="center">

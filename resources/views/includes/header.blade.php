@@ -15,14 +15,12 @@
                         </ol>
                     </nav>
                 </div>
-                @if (!Route::is('dashboard.admin'))
-                    <div class="col-lg-6 col-5 text-right">
-                        @if (!empty($button))
-                            <a class="btn btn-sm btn-neutral"
-                                href={{ $button['link'] ?? '' }}>{{ $button['name'] ?? 'New' }}</a>
-                        @endif
-                    </div>
-                @endif
+                <div class="col-lg-6 col-5 text-right">
+                    @if (!empty($button) && auth()->user()->isAdmin())
+                        <a class="btn btn-sm btn-neutral"
+                            href={{ $button['link'] ?? '' }}>{{ $button['name'] ?? 'New' }}</a>
+                    @endif
+                </div>
             </div>
             <!-- Card stats -->
             @if (Route::is('dashboard.admin'))

@@ -73,7 +73,14 @@
       <div class="top-right links">
         @auth
           <a href="{{ route('home') }}">Home</a>
-          <a href="{{ route('dashboard.admin') }}">Dashboard</a>
+          @if(auth()->user()->isAdmin())
+              <a href="{{ route('dashboard.admin') }}">Dashboard</a>
+          @else
+              <a href="{{ route('logout') }}" id="logoutBtn">Logout</a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                  @csrf
+              </form>
+          @endif
         @else
           <a href="{{ route('login') }}">Login</a>
 
@@ -98,5 +105,11 @@
     </div>
   </div>
 </body>
-
+<script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+<script>
+    $("#logoutBtn").on("click", (e) => {
+        e.preventDefault();
+        $("#logout-form").submit();
+    });
+</script>
 </html>

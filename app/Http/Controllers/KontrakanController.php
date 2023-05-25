@@ -19,6 +19,7 @@ class KontrakanController extends Controller
      */
     public function index()
     {
+        abort_if(Gate::denies('rent_access'), Response::HTTP_FORBIDDEN, 'Forbidden');
         $rents = Kontrakan::all();
         return view('dashboard.kontrakan.index', compact("rents"));
     }

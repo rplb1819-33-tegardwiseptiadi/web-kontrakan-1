@@ -7,11 +7,11 @@
     @include("includes.header", [
     "icon" => "fas fa-users",
     "breadcrumbs" => [
-    [
-    "name" => "List Penghuni",
-    "is_active" => "active",
-    "link" => `{{ route('dashboard.penghuni.index') }}`
-    ]
+        [
+            "name" => "List Penghuni",
+            "is_active" => "active",
+            "link" => `{{ route('dashboard.penghuni.index') }}`
+        ]
     ],
     "button" => ["link" => "/dashboard/penghuni/create", "name" => "Tambah Penghuni"]
     ])
@@ -89,7 +89,7 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                
+
                                                 @endforeach
                                         @else
                                         <tr align="center">

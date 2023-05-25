@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model; 
+use Illuminate\Database\Eloquent\Model;
 
 class ActivityLog extends Model
 {
@@ -16,21 +16,23 @@ class ActivityLog extends Model
         "nama_kontrakan_lama",
         "nama_kontrakan_baru",
         "nama_penghuni_lama",
-        "nama_penghuni_baru", 
+        "nama_penghuni_baru",
         "keterangan"
-    ]; 
+    ];
 
-    public function transactions()
+    public function transactions(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('\App\Transaksi', 'transaction_id');
+        return $this->belongsTo(Transaksi::class, 'transaction_id');
     }
-    public function occupants()
+
+    public function occupants(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('\App\Penghuni', 'occupant_id');
+        return $this->belongsTo(Penghuni::class, 'occupant_id');
     }
-    public function rents()
+
+    public function rents(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('\App\Kontrakan', 'rent_id');
+        return $this->belongsTo(Kontrakan::class, 'rent_id');
     }
 
 }
