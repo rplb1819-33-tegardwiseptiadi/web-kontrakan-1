@@ -7,11 +7,11 @@
     @include("includes.header", [
     "icon" => "fas fa-hotel",
     "breadcrumbs" => [
-    [
-    "name" => "List Kontrakan",
-    "is_active" => "active",
-    "link" => `{{ route('dashboard.kontrakan.index') }}`
-    ]
+        [
+        "name" => "List Kontrakan",
+        "is_active" => "active",
+        "link" => `{{ route('dashboard.kontrakan.index') }}`
+        ]
     ],
     "button" => ["link" => "/dashboard/kontrakan/create", "name" => "Tambah Kontrakan"]
     ])
@@ -65,7 +65,7 @@
                                                         @if($rent->status_kontrakan == 'Kosong')
                                                             <div class="btn btn-sucess"> {{ $rent->status_kontrakan }}
                                                         @endif
-                                                    
+
                                                         @if($rent->status_kontrakan == 'Booked')
                                                             <div class="btn btn-warning"> {{ $rent->status_kontrakan }}
                                                         @endif
@@ -76,7 +76,7 @@
                                                             <div class="btn btn-primary"> {{ $rent->status_kontrakan }}
                                                         @endif
                                                     </td>
-                                                    
+
                                                     <td style="vertical-align:middle;">{{ $rent->alamat_kontrakan }}</td>
                                                     <td style="vertical-align:middle;">
                                                         <form action="{{ route('dashboard.kontrakan.show', $rent->id) }}">
@@ -95,7 +95,7 @@
                                                             action="{{ route('dashboard.kontrakan.destroy', $rent->id) }}"
                                                             method="POST" onclick="Swal.mixin()">
                                                             @method("delete")
-                                                            @csrf 
+                                                            @csrf
                                                             <button class="btn btn-danger btn-sm show_confirm" title="Hapus Data {{$rent->nama_kontrakan}}"
                                                                 data-toggle="tooltip">
                                                                 <i class="fas fa-trash"></i>
@@ -125,7 +125,7 @@
 
 @push('addon-script')
  <!-- bagian kontrakan -->
- <script type="text/javascript"> 
+ <script type="text/javascript">
      $('.show_confirm').click(function(event) {
          var name = $(this).data("name");
           var form =  $(this).closest("form");
@@ -143,6 +143,6 @@
             }
           });
       });
-  
+
 </script>
   @endpush

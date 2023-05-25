@@ -32,16 +32,17 @@ class AuthGates
                 }
             }
 
-            foreach ($permissions as $title => $level) {
+            foreach ($permissions as $title => $role) {
                 /**
                  * cek apakah user yang bersangkutan memiliki hak akses tertentu,
                  * jika punya maka definisikan gatenya
                  */
-                Gate::define($title, function($user) use ($level){
-                    return in_array($user->level->id, $level);
+                Gate::define($title, function($user) use ($role){
+                    return in_array($user->role->id, $role);
                 });
             }
         }
+
         return $next($request);
     }
 }

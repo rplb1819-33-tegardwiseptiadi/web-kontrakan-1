@@ -15,8 +15,10 @@ class Transaksi extends Model
         "tgl_transaksi",
         "nominal",
         "status_transaksi",
-        "foto_transaksi"
-    ]; 
+        "foto_transaksi",
+        "jml_bulan",
+        "total_harga",
+    ];
 
     public function logs()
     {
@@ -24,11 +26,11 @@ class Transaksi extends Model
     }
     public function occupants()
     {
-        return $this->belongsTo('\App\Penghuni', 'occupant_id');
+        return $this->belongsTo(Penghuni::class, 'occupant_id');
     }
     public function rents()
     {
-        return $this->belongsTo('\App\Kontrakan', 'rent_id');
+        return $this->belongsTo(Kontrakan::class, 'rent_id');
     }
 
 }

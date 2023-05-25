@@ -17,10 +17,12 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->foreignId('occupant_id')->constrained();
             $table->foreignId('rent_id')->constrained();
+            $table->string('foto_transaksi');
             $table->date('tgl_transaksi');
             $table->integer('nominal');
+            $table->integer('jml_bulan');
+            $table->decimal('total_harga', 8, 0);
             $table->enum('status_transaksi', ['Lunas', 'Belum Lunas']);
-            $table->string('foto_transaksi');
             $table->timestamps();
         });
     }
@@ -33,5 +35,5 @@ class CreateTransactionsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('transactions');
-    }   
+    }
 }

@@ -7,14 +7,14 @@
 <!-- ini adalah isi konten dari halaman Dashboard Kontrakan -->
 @section('header')
     @include("includes.header", [
-    "icon" => "fas fa-home",
-    "breadcrumbs" => [
-    [
-    "name" => "Dashboard",
-    "is_active" => "active",
-    "link" => `{{ route('dashboard.admin') }}`
-    ]
-    ]
+        "icon" => "fas fa-home",
+        "breadcrumbs" => [
+            [
+            "name" => "Dashboard",
+            "is_active" => "active",
+            "link" => `{{ route('dashboard.admin') }}`
+            ]
+        ]
     ])
 @endsection
 @section('container')

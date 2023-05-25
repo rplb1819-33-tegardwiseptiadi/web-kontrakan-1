@@ -3,7 +3,7 @@
 
 <!-- ini adalah title dari halaman Tambah Kontrakan -->
 @section('title', 'Tambah Data Kontrakan')
- 
+
 <!-- ini adalah isi konten dari halaman Tambah Kontrakan -->
 @section('container')
     <div class="container-fluid mt--10">
@@ -11,7 +11,7 @@
         <div class="wrapper">
          @include("sweetalert::alert")
          </div>
-    
+
         <div class="col-lg-8 mx-auto">
                 <div class="card mt-4">
                     <div class="card-body bg-white">
@@ -101,7 +101,5 @@
 
             </div>
         </div>
-    </div>
-    </div>
     </div>
 @endsection
